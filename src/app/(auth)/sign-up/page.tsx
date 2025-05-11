@@ -25,7 +25,7 @@ export default function SignUp() {
         <SignUpForm />
       </CardContent>
 
-      <CardFooter className="justify-center text-sm">
+      <CardFooter className="justify-center text-sm mt-2">
         Already have an account?&nbsp;
         <Link
           href="/sign-in"

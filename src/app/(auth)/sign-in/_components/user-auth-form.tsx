@@ -18,8 +18,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { HTMLAttributes, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { GrFacebookOption } from "react-icons/gr";
-import { SiRefinedgithub } from "react-icons/si";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -116,26 +114,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <Button className="mt-2" size="lg" disabled={isLoading}>
           Login
         </Button>
-
-        <div className="relative my-2">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background text-muted-foreground px-2">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="outline" type="button" disabled={isLoading}>
-            <SiRefinedgithub className="h-4 w-4" /> GitHub
-          </Button>
-          <Button variant="outline" type="button" disabled={isLoading}>
-            <GrFacebookOption className="h-4 w-4" /> Facebook
-          </Button>
-        </div>
       </form>
     </Form>
   );
