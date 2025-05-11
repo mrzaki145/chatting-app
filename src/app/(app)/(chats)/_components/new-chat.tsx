@@ -139,8 +139,7 @@ export function NewChat({ users }: Props) {
               <Button
                 size="icon"
                 variant="outline"
-                className="rounded-full"
-                // onClick={() => setOpen(true)}
+                className="rounded-full size-8"
               >
                 <Plus />
                 <span className="sr-only">New message</span>
