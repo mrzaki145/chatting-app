@@ -20,7 +20,7 @@ interface Props {
 }
 
 function ChatNav({ chatId: id }: Props) {
-  const { isSidebarOpen, toggleSidebar } = useSidebar();
+  const { toggleSidebar } = useSidebar();
   const { data: chat, isLoading } = useQuery(
     trpc.chats.single.queryOptions({ id })
   );

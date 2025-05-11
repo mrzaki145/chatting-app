@@ -3,6 +3,7 @@ export interface Message {
   userId: string;
   content: string;
   createdAt: Date;
+  chatId: string;
   user: {
     id: string;
     name: string | null;

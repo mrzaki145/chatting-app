@@ -27,6 +27,7 @@ const ChatItemSkeleton = memo(() => (
     </div>
   </div>
 ));
+ChatItemSkeleton.displayName = "ChatItemSkeleton";
 
 const ChatsList = memo(() => {
   const { data: session } = authClient.useSession();
@@ -43,10 +44,10 @@ const ChatsList = memo(() => {
   } = useChats({
     searchText: debouncedSearchText,
   });
+
   const debouncedSetSearch = useCallback(
-    debounce(setDebouncedSearchText, {
-      wait: 500,
-    }),
+    (value: string) =>
+      debounce(() => setDebouncedSearchText(value), { wait: 500 }),
     []
   );
 
@@ -70,7 +71,7 @@ const ChatsList = memo(() => {
       channel.unbind("new-chat", refetch);
       // pusherClient.unsubscribe(`user-${session.user.id}`);
     };
-  }, [session?.user?.id]);
+  }, [session?.user?.id, refetch]);
 
   return (
     <>
@@ -129,5 +130,6 @@ const ChatsList = memo(() => {
     </>
   );
 });
+ChatsList.displayName = "ChatsList";
 
 export default ChatsList;

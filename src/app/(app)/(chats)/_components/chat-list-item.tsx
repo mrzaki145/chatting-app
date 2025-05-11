@@ -10,10 +10,11 @@ import pusherClient from "@/lib/pusher";
 import { trpc } from "@/lib/trpc";
 import { formatMessageTime } from "@/lib/utils";
 import { Chat } from "@/types/chat";
+import { Message } from "@/types/message";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MoreHorizontal, Users } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -22,7 +23,6 @@ interface Props {
 }
 
 const ChatListItem = memo(({ chat }: Props) => {
-  const params = useParams();
   const router = useRouter();
   const { id, name, users, isGroup, messages, createdAt } = chat;
   const [latestMessage, setLatestMessage] = useState(messages.at(-1));
@@ -56,8 +56,7 @@ const ChatListItem = memo(({ chat }: Props) => {
   useEffect(() => {
     const channel = pusherClient.subscribe(`chat-${id}`);
 
-    const handleNewMessage = (message: any) => {
-      console.log("new-message", message);
+    const handleNewMessage = (message: Message) => {
       if (message.chatId !== id) return;
       setLatestMessage(message);
     };
@@ -68,7 +67,7 @@ const ChatListItem = memo(({ chat }: Props) => {
       channel.unbind("new-message", handleNewMessage);
       // pusherClient.unsubscribe(`chat-${id}`);
     };
-  }, [params.id]);
+  }, [id]);
 
   return (
     <li className="group relative flex items-center border-b border-border py-3 first:pt-0 last:pb-0 last:border-b-0">
@@ -125,5 +124,6 @@ const ChatListItem = memo(({ chat }: Props) => {
     </li>
   );
 });
+ChatListItem.displayName = "ChatListItem";
 
 export default ChatListItem;

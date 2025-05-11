@@ -55,6 +55,7 @@ const ChatMessageItem = memo(
     );
   }
 );
+ChatMessageItem.displayName = "ChatMessageItem";
 
 const ChatMessages = memo(({ chatId }: Props) => {
   const lastElementRef = useRef<HTMLDivElement>(null);
@@ -110,7 +111,7 @@ const ChatMessages = memo(({ chatId }: Props) => {
       channel.unbind("new-message", handleNewChat);
       // pusherClient.unsubscribe(`chat-${chatId}`); // Keep this if needed
     };
-  }, [chatId, isFetchingNextPage]);
+  }, [chatId, messages, isFetchingNextPage]);
 
   return (
     <div className="relative flex-1 h-full mb-6">
@@ -168,5 +169,6 @@ const ChatMessages = memo(({ chatId }: Props) => {
     </div>
   );
 });
+ChatMessages.displayName = "ChatMessages";
 
 export default ChatMessages;

@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { showSubmittedData } from "@/utils/show-submitted-data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -76,7 +75,7 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => showSubmittedData(data))}
+        onSubmit={form.handleSubmit((data) => console.log(data))}
         className="space-y-8"
       >
         <FormField

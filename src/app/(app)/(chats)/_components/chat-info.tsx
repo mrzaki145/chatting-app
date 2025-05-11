@@ -12,7 +12,7 @@ interface Props {
 }
 
 function ChatInfo({ chatId: id }: Props) {
-  const { isSidebarOpen, toggleSidebar } = useSidebar();
+  const { isSidebarOpen } = useSidebar();
   const { data: chat } = useQuery(
     trpc.chats.single.queryOptions(
       { id },

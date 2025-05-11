@@ -26,7 +26,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { showSubmittedData } from "@/utils/show-submitted-data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
@@ -75,7 +74,7 @@ export function AccountForm() {
   });
 
   function onSubmit(data: AccountFormValues) {
-    showSubmittedData(data);
+    console.log(data);
   }
 
   return (

@@ -82,7 +82,7 @@ export function NewChat({ users }: Props) {
       users: [],
     },
   });
-  const { handleSubmit, control, watch, setValue, formState } = form;
+  const { handleSubmit, control, watch, setValue } = form;
   const selectedUsers = watch("users");
 
   // useCallback to memoize the onSelect handler
@@ -113,14 +113,14 @@ export function NewChat({ users }: Props) {
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     startTransition(async () => {
-      let chatData = { ...data } as any;
+      const chatData = { ...data };
 
       if (data.users.length === 1) {
-        const user = users?.find((user) => user.id === data.users[0]);
-        chatData.name = user?.name ?? "";
+        const user = users.find((user) => user.id === data.users[0]);
+        chatData.name = user?.name || "Chat";
       }
 
-      await createGroupChat(chatData);
+      await createGroupChat(chatData as { name: string; users: string[] });
     });
   };
 

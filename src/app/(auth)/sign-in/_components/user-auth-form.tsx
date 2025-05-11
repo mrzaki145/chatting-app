@@ -67,9 +67,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         },
       });
     });
-
-    // eslint-disable-next-line no-console
-    console.log(data);
   }
 
   return (
