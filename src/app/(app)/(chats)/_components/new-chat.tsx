@@ -1,6 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AvatarGroup } from "@/components/ui/avatar-group";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -13,6 +14,8 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -26,13 +29,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/ui/loading-button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { trpc } from "@/lib/trpc";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { useMutation } from "@tanstack/react-query";
-import { Check, MessageSquarePlus } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -124,20 +132,32 @@ export function NewChat({ users }: Props) {
         }, 150)
       }
     >
-      <DialogTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MessageSquarePlus />
-        </Button>
-      </DialogTrigger>
+      <TooltipProvider delayDuration={0}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                className="rounded-full"
+                // onClick={() => setOpen(true)}
+              >
+                <Plus />
+                <span className="sr-only">New message</span>
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent sideOffset={10}>New message</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader className="mb-2">
-          <DialogTitle>New chat</DialogTitle>
+          <DialogTitle>New message</DialogTitle>
+          <DialogDescription>
+            Invite a user to this thread. This will create a new group message.
+          </DialogDescription>
         </DialogHeader>
-        <DialogDescription className="sr-only">
-          Select people to start messaging.
-        </DialogDescription>
 
         <Form {...form}>
           <form
@@ -166,8 +186,10 @@ export function NewChat({ users }: Props) {
                 <FormItem>
                   <FormControl>
                     <Command>
+                      {/* <CommandInput placeholder="Search user..." /> */}
+
                       <CommandList className="p-0">
-                        <CommandEmpty>No people found.</CommandEmpty>
+                        <CommandEmpty>No users found.</CommandEmpty>
 
                         <CommandGroup>
                           {users?.map((user) => (
@@ -211,17 +233,33 @@ export function NewChat({ users }: Props) {
               )}
             />
 
-            {users && users.length > 0 && (
-              <LoadingButton
-                type="submit"
-                className="w-full"
-                loading={isPending}
-              >
+            <DialogFooter className="flex items-center sm:justify-between mt-3">
+              {selectedUsers.length > 0 ? (
+                <AvatarGroup max={4}>
+                  {selectedUsers.map((userId) => {
+                    const user = users?.find((u) => u.id === userId);
+                    return (
+                      <Avatar
+                        key={user?.email}
+                        className="inline-block border-2 border-background"
+                      >
+                        <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
+                      </Avatar>
+                    );
+                  })}
+                </AvatarGroup>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Select users to add to this thread.
+                </p>
+              )}
+
+              <LoadingButton type="submit" loading={isPending}>
                 Create
               </LoadingButton>
-            )}
+            </DialogFooter>
 
-            <DialogClose ref={closeBtnRef} />
+            <DialogClose className="sr-only" ref={closeBtnRef} />
           </form>
         </Form>
       </DialogContent>
