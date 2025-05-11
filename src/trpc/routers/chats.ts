@@ -85,7 +85,11 @@ export const chatRouter = createTRPCRouter({
           where: {
             id: input.id,
           },
-          include: {
+          select: {
+            id: true,
+            name: true,
+            isGroup: true,
+            createdAt: true,
             users: {
               where: {
                 id: {
@@ -110,8 +114,33 @@ export const chatRouter = createTRPCRouter({
               },
             },
           },
+          // include: {
+          //   isGroup: true,
+          //   users: {
+          //     where: {
+          //       id: {
+          //         not: session.user.id,
+          //       },
+          //     },
+          //     select: {
+          //       id: true,
+          //       name: true,
+          //       image: true,
+          //     },
+          //   },
+          //   messages: {
+          //     orderBy: {
+          //       createdAt: "desc",
+          //     },
+          //     take: 1,
+          //     select: {
+          //       id: true,
+          //       content: true,
+          //       createdAt: true,
+          //     },
+          //   },
+          // },
         });
-
         return chat;
       } catch (error) {
         if (error instanceof Error) {

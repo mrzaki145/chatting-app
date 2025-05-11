@@ -33,7 +33,7 @@ function ChatInfo({ chatId: id }: Props) {
       <div className="h-full flex-1 flex flex-col justify-between rounded-xl bg-white/5 p-4">
         <div className="flex flex-col items-center text-center pt-10">
           <Avatar className="size-28 mx-auto mb-6">
-            {chat.isGroup ? (
+            {chat?.isGroup ? (
               <AvatarFallback>
                 <Users className="size-10" />
               </AvatarFallback>
