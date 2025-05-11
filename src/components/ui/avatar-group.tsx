@@ -27,7 +27,7 @@ export const AvatarGroup = ({
 
   return (
     <div
-      className={cn("flex items-center flex-row-reverse", className)}
+      className={cn("flex items-center flex-row-reverse ml-2", className)}
       {...props}
     >
       {remainingAvatars > 0 && (
